@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import taskManager.manager.DTO.TaskDTO;
 import taskManager.manager.Models.Task;
@@ -25,63 +26,62 @@ public class TaskController {
   private TaskService taskService;
 
   @PostMapping()
+  @Operation(summary = "Cria uma tarefa")
   public ResponseEntity<Task> save(@RequestBody @Valid TaskDTO task) {
     try {
       Task result = taskService.save(task.toTask());
       return ResponseEntity.ok(result);
     } catch (Exception e) {
       System.out.println(e);
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @PostMapping(value = "{id}/done")
+  @Operation(summary = "Marca a tarefa como Concluida")
   public ResponseEntity<Task> setAsDone(@PathVariable Long id) {
     try {
       Task result = taskService.setAsDone(id);
       return ResponseEntity.ok(result);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      System.out.println(e);
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @PostMapping(value = "{id}/undone")
+  @Operation(summary = "Marca a tarefa como Não Concluida")
   public ResponseEntity<Task> setAsUndone(@PathVariable Long id) {
     try {
       Task result = taskService.setAsUndone(id);
       return ResponseEntity.ok(result);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      System.out.println(e);
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @GetMapping(value = "/done")
+  @Operation(summary = "Lista tarefas concluidas")
   public ResponseEntity<List<Task>> getDoneTasks() {
     try {
       List<Task> result = taskService.findDoneTasks();
 
-      if (result.isEmpty()) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-      }
-
       return ResponseEntity.ok(result);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @GetMapping(value = "/undone")
+  @Operation(summary = "Lista tarefas não concluidas")
   public ResponseEntity<List<Task>> getUnDoneTasks() {
     try {
       List<Task> result = taskService.findUndoneTasks();
 
-      if (result.isEmpty()) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-      }
-
       return ResponseEntity.ok(result);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

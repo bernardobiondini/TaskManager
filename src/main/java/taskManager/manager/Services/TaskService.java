@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityNotFoundException;
 import taskManager.manager.Models.Task;
 import taskManager.manager.Repositories.TaskRepository;
 
@@ -19,7 +20,10 @@ public class TaskService {
   }
 
   public Task setAsDone(Long id) {
-    Task task = taskRepository.getReferenceById(id);
+    Task task = this.getById(id);
+    if (task == null) {
+      return null;
+    }
     if (task.isDone()) {
       return task;
     }
@@ -28,7 +32,10 @@ public class TaskService {
   }
 
   public Task setAsUndone(Long id) {
-    Task task = taskRepository.getReferenceById(id);
+    Task task = this.getById(id);
+    if (task == null) {
+      return null;
+    }
     if (!task.isDone()) {
       return task;
     }
@@ -37,11 +44,27 @@ public class TaskService {
   }
 
   public List<Task> findDoneTasks() {
-    return taskRepository.findDoneTasks();
+    List<Task> tasks = taskRepository.findDoneTasks();
+    if (tasks.isEmpty()) {
+      return null;
+    }
+    return tasks;
   }
 
   public List<Task> findUndoneTasks() {
-    return taskRepository.findUndoneTasks();
+    List<Task> tasks = taskRepository.findUndoneTasks();
+    if (tasks.isEmpty()) {
+      return null;
+    }
+    return tasks;
   }
 
+  private Task getById(Long id) {
+    try {
+      return taskRepository.getReferenceById(id);
+    } catch (EntityNotFoundException e) {
+      System.out.println("Task not found for id: " + id);
+      return null;
+    }
+  }
 }
