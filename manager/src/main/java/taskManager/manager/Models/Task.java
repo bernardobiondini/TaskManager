@@ -1,6 +1,7 @@
 package taskManager.manager.Models;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,10 +9,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import taskManager.manager.Enums.TaskPriority;
+import taskManager.manager.Enums.TaskType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @Table(name = "tasks")
 public class Task implements Serializable {
@@ -28,6 +31,18 @@ public class Task implements Serializable {
 
   @Column
   private Boolean done = false;
+
+  @Column(nullable = false)
+  private TaskType type;
+
+  @Column(nullable = false)
+  private TaskPriority priority;
+
+  @Column
+  private LocalDate dueDate;
+
+  @Column
+  private Integer dueDays;
 
   public Long getId() {
     return id;
@@ -59,5 +74,37 @@ public class Task implements Serializable {
 
   public void setDone(Boolean done) {
     this.done = done;
+  }
+
+  public TaskType getType() {
+    return type;
+  }
+
+  public void setType(TaskType type) {
+    this.type = type;
+  }
+
+  public TaskPriority getPriority() {
+    return priority;
+  }
+
+  public void setPriority(TaskPriority priority) {
+    this.priority = priority;
+  }
+
+  public LocalDate getDueDate() {
+    return dueDate;
+  }
+
+  public void setDueDate(LocalDate dueDate) {
+    this.dueDate = dueDate;
+  }
+
+  public Integer getDueDays() {
+    return dueDays;
+  }
+
+  public void setDueDays(Integer dueDays) {
+    this.dueDays = dueDays;
   }
 }
