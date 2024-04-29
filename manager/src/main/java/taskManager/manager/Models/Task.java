@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import taskManager.manager.Enums.TaskPriority;
 import taskManager.manager.Enums.TaskType;
 
@@ -43,6 +44,9 @@ public class Task implements Serializable {
 
   @Column
   private Integer dueDays;
+
+  @Transient
+  private String info;
 
   public Long getId() {
     return id;
@@ -106,5 +110,13 @@ public class Task implements Serializable {
 
   public void setDueDays(Integer dueDays) {
     this.dueDays = dueDays;
+  }
+
+  public String getInfo() {
+    return info;
+  }
+
+  public void setInfo(String info) {
+    this.info = info;
   }
 }

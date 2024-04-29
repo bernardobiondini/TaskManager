@@ -1,11 +1,12 @@
 package taskManager.manager.Services;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.EntityNotFoundException;
 import taskManager.manager.Models.Task;
 import taskManager.manager.Repositories.TaskRepository;
 
@@ -16,6 +17,12 @@ public class TaskService {
   private TaskRepository taskRepository;
 
   public Task save(Task task) {
+    if (task.getDueDays() != null) {
+      LocalDate currentDate = LocalDate.now();
+      LocalDate dueDate = currentDate.plusDays(task.getDueDays());
+      task.setDueDate(dueDate);
+    }
+
     return taskRepository.save(task);
   }
 
@@ -59,12 +66,25 @@ public class TaskService {
     return tasks;
   }
 
-  private Task getById(Long id) {
-    try {
-      return taskRepository.getReferenceById(id);
-    } catch (EntityNotFoundException e) {
-      System.out.println("Task not found for id: " + id);
-      return null;
+  public Task getById(Long id) {
+    Task task = taskRepository.findById(id).orElse(null);
+
+    if (task != null) {
+      String info = "Concluida";
+
+      if (!task.isDone() && task.getDueDate() != null) {
+        LocalDate currentDate = LocalDate.now();
+        long delayed = 0;
+        if (task.getDueDate().isBefore(currentDate)) {
+          delayed = ChronoUnit.DAYS.between(task.getDueDate(), currentDate);
+        }
+        info = "Prevista, " + delayed + " dias de atraso";
+      }
+
+      task.setInfo(info);
+      return task;
     }
+
+    return null;
   }
 }

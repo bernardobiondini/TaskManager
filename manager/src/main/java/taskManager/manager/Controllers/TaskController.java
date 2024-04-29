@@ -61,6 +61,18 @@ public class TaskController {
     }
   }
 
+  @GetMapping(value = "{id}")
+  @Operation(summary = "Lista tarefas concluidas")
+  public ResponseEntity<Task> getTask(@PathVariable Long id) {
+    try {
+      Task result = taskService.getById(id);
+
+      return ResponseEntity.ok(result);
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   @GetMapping(value = "/done")
   @Operation(summary = "Lista tarefas concluidas")
   public ResponseEntity<List<Task>> getDoneTasks() {
