@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "ee620503-7b42-4aaf-a9f9-8072affb1b6b",
+		"name": "Task Manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25419994"
+	},
+	"item": [
+		{
+			"name": "Tarefas Feitas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://taskmanager-x0b7.onrender.com/api/task/done",
+					"protocol": "https",
+					"host": [
+						"taskmanager-x0b7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"task",
+						"done"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tarefa",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://taskmanager-x0b7.onrender.com/api/task/1",
+					"protocol": "https",
+					"host": [
+						"taskmanager-x0b7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"task",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tarefas Feitas Não Feitas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://taskmanager-x0b7.onrender.com/api/task/undone",
+					"protocol": "https",
+					"host": [
+						"taskmanager-x0b7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"task",
+						"undone"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar tarefa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Titulo 2\",\n    \"description\": \"Descrição tarefa 2\",\n    \"done\": true\n    //\"dueDate\": \"2024-12-01\",\n    // \"dueDays\": 5\n    // \"priority\": \"ALTA\"\n    // \"priority\": \"MEDIA\"\n    // \"priority\": \"BAIXA\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://taskmanager-x0b7.onrender.com/api/task",
+					"protocol": "https",
+					"host": [
+						"taskmanager-x0b7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Marca como concluida",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Titulo 2\",\n    \"description\": \"Descrição tarefa 2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://taskmanager-x0b7.onrender.com/api/task/1/done",
+					"protocol": "https",
+					"host": [
+						"taskmanager-x0b7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"task",
+						"1",
+						"done"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Marca como pendente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Titulo 2\",\n    \"description\": \"Descrição tarefa 2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://taskmanager-x0b7.onrender.com/api/task/1/undone",
+					"protocol": "https",
+					"host": [
+						"taskmanager-x0b7",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"task",
+						"1",
+						"undone"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
