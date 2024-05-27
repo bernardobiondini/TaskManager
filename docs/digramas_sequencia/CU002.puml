@@ -1,0 +1,9 @@
+@startuml CU002 - Visualizar tarefas concluidas
+actor User
+User -> TaskController: GET /task/done
+TaskController -> TaskService: findDoneTasks()
+TaskService -> TaskRepository: findDoneTasks()
+TaskRepository -> TaskService: List<Task>
+TaskService -> TaskController: List<Task>
+TaskController -> User: ResponseEntity<List<Task>>
+@enduml

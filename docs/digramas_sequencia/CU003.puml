@@ -1,0 +1,12 @@
+@startuml CU003 - Marcar tarefa como concluida
+actor User
+User -> TaskController: POST /task/{id}/done
+TaskController -> TaskService: setAsDone(id)
+TaskService -> TaskRepository: findById(id)
+TaskRepository -> TaskService: Task
+TaskService -> Task: setDone(true)
+TaskService -> TaskRepository: save(Task)
+TaskRepository -> TaskService: Task
+TaskService -> TaskController: Task
+TaskController -> User: ResponseEntity<Task>
+@enduml

@@ -1,0 +1,9 @@
+@startuml CU001 - Visualizar tarefas pendentes
+actor User
+User -> TaskController: GET /task/undone
+TaskController -> TaskService: findUndoneTasks()
+TaskService -> TaskRepository: findUndoneTasks()
+TaskRepository -> TaskService: List<Task>
+TaskService -> TaskController: List<Task>
+TaskController -> User: ResponseEntity<List<Task>>
+@enduml

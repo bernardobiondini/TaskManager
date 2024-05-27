@@ -1,0 +1,12 @@
+@startuml CU004 - Marcar tarefa como pendente
+actor User
+User -> TaskController: POST /task/{id}/undone
+TaskController -> TaskService: setAsUndone(id)
+TaskService -> TaskRepository: findById(id)
+TaskRepository -> TaskService: Task
+TaskService -> Task: setDone(false)
+TaskService -> TaskRepository: save(Task)
+TaskRepository -> TaskService: Task
+TaskService -> TaskController: Task
+TaskController -> User: ResponseEntity<Task>
+@enduml

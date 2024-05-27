@@ -1,0 +1,9 @@
+@startuml CU005 - Criar uma tarefa
+actor User
+User -> TaskController: POST /task
+TaskController -> TaskService: save(TaskDTO)
+TaskService -> TaskRepository: save(Task)
+TaskRepository -> TaskService: Task
+TaskService -> TaskController: Task
+TaskController -> User: ResponseEntity<Task>
+@enduml

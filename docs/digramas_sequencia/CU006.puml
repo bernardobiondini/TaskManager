@@ -1,0 +1,9 @@
+@startuml CU006 - Visualizar tarefa
+actor User
+User -> TaskController: GET /task/{id}
+TaskController -> TaskService: getById(id)
+TaskService -> TaskRepository: findById(id)
+TaskRepository -> TaskService: Task
+TaskService -> TaskController: Task
+TaskController -> User: ResponseEntity<Task>
+@enduml
