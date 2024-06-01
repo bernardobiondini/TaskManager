@@ -1,0 +1,61 @@
+.container {
+  text-align: center;
+  background-color: #add8e6;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todoContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.todo, .done {
+  width: 45%;
+  background: #87CEFA;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  color: black
+}
+
+.completed {
+  background: #2F4F4F;
+  color: white;
+}
+
+.taskContent {
+  text-align: left;
+}
+
+.taskInput {
+  padding: 10px;
+  margin-top: 10px;
+  width: calc(100% - 22px);
+}
+
+.addButton {
+  margin-top: 10px;
+  padding: 10px;
+  background: #4682B4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background: #4169E1;
+}
