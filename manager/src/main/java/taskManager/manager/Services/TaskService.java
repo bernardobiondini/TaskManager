@@ -35,6 +35,7 @@ public class TaskService {
       return task;
     }
     task.setDone(true);
+    getTaskInfo(task);
     return taskRepository.save(task);
   }
 
@@ -47,6 +48,7 @@ public class TaskService {
       return task;
     }
     task.setDone(false);
+    getTaskInfo(task);
     return taskRepository.save(task);
   }
 
