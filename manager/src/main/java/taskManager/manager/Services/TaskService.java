@@ -22,7 +22,7 @@ public class TaskService {
       LocalDate dueDate = currentDate.plusDays(task.getDueDays());
       task.setDueDate(dueDate);
     }
-
+    getTaskInfo(task);
     return taskRepository.save(task);
   }
 
