@@ -91,7 +91,7 @@ public class TaskService {
         if (task.getDueDate().isBefore(currentDate)) {
           delayed = ChronoUnit.DAYS.between(task.getDueDate(), currentDate);
         }
-        info = ", " + delayed + " dias de atraso";
+        info += ", " + delayed + " dias de atraso";
       }
 
       task.setInfo(info);
