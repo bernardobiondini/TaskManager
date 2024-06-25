@@ -55,6 +55,7 @@ public class TaskService {
     if (tasks.isEmpty()) {
       return null;
     }
+    tasks.forEach(this::getTaskInfo);
     return tasks;
   }
 
@@ -63,16 +64,26 @@ public class TaskService {
     if (tasks.isEmpty()) {
       return null;
     }
+    tasks.forEach(this::getTaskInfo);
     return tasks;
   }
 
   public Task getById(Long id) {
     Task task = taskRepository.findById(id).orElse(null);
+    getTaskInfo(task);
 
+    return task;
+  }
+
+  private void getTaskInfo(Task task) {
     if (task != null) {
       String info = "Concluida";
 
-      if (!task.isDone() && task.getDueDate() != null) {
+      if (!task.isDone()) {
+        info = "Prevista";
+      }
+
+      if (task.getDueDate() != null) {
         LocalDate currentDate = LocalDate.now();
         long delayed = 0;
         if (task.getDueDate().isBefore(currentDate)) {
@@ -82,9 +93,6 @@ public class TaskService {
       }
 
       task.setInfo(info);
-      return task;
     }
-
-    return null;
   }
 }

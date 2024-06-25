@@ -21,3 +21,12 @@ export interface Task {
   dueDays: number | null;
   info?: string;
 }
+
+export interface TaskDTO {
+  title: string;
+  description: string;
+  done?: boolean;
+  dueDate?: string | null; // Optional ISO date string
+  dueDays?: number | null;
+  priority?: TaskPriority;
+}
