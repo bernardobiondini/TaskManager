@@ -1,25 +1,49 @@
 "use client"
 import styles from "./page.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Task, TaskPriority, TaskType } from './task'; // Import the Task interface and enums
 
 export default function Home() {
-  const [tasks, setTasks] = useState([
-    { id: 1, title: 'Tarefa 1', description: 'lorem ipsum', completed: false }
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState('');
 
-  const addTask = () => {
+  useEffect(() => {
+    // Fetch initial tasks from API
+    const fetchTasks = async () => {
+      try {
+        const doneTasks = await axios.get<Task[]>('https://taskmanager-x0b7.onrender.com/api/task/done');
+        const undoneTasks = await axios.get<Task[]>('https://taskmanager-x0b7.onrender.com/api/task/undone');
+        setTasks([...undoneTasks.data, ...doneTasks.data]);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
+  const addTask = async () => {
     if (newTask.trim()) {
-      const newTaskObj = { id: tasks.length + 1, title: newTask, description: 'lorem ipsum', completed: false };
-      setTasks([...tasks, newTaskObj]);
-      setNewTask('');
+      try {
+        const newTaskObj = { title: newTask, description: 'lorem ipsum', type: TaskType.FREE, priority: TaskPriority.MEDIUM }; // Adjust the default values as necessary
+        const response = await axios.post<Task>('https://taskmanager-x0b7.onrender.com/api/task', newTaskObj);
+        setTasks([...tasks, response.data]);
+        setNewTask('');
+      } catch (error) {
+        console.error("Error adding task:", error);
+      }
     }
   };
 
-  const toggleTaskCompletion = (taskId: number) => {
-    setTasks(tasks.map(task => 
-      task.id === taskId ? { ...task, completed: !task.completed } : task
-    ));
+  const toggleTaskCompletion = async (taskId: number, completed: boolean) => {
+    try {
+      const url = `https://taskmanager-x0b7.onrender.com/api/task/${taskId}/${completed ? 'done' : 'undone'}`;
+      const response = await axios.post<Task>(url);
+      setTasks(tasks.map(task => task.id === taskId ? response.data : task));
+    } catch (error) {
+      console.error("Error toggling task completion:", error);
+    }
   };
 
   return (
@@ -27,7 +51,7 @@ export default function Home() {
       <div className={styles.todoContainer}>
         <div className={styles.todo}>
           <h2>A FAZER</h2>
-          {tasks.filter(task => !task.completed).map(task => (
+          {tasks.filter(task => !task.done).map(task => (
             <div key={task.id} className={styles.task}>
               <div className={styles.taskContent}>
                 <h3>{task.title}</h3>
@@ -35,7 +59,7 @@ export default function Home() {
               </div>
               <input 
                 type="checkbox" 
-                onChange={() => toggleTaskCompletion(task.id)} 
+                onChange={() => toggleTaskCompletion(task.id, true)} 
               />
             </div>
           ))}
@@ -50,7 +74,7 @@ export default function Home() {
         </div>
         <div className={styles.done}>
           <h2>FEITO</h2>
-          {tasks.filter(task => task.completed).map(task => (
+          {tasks.filter(task => task.done).map(task => (
             <div key={task.id} className={`${styles.task} ${styles.completed}`}>
               <div className={styles.taskContent}>
                 <h3>{task.title}</h3>
@@ -59,7 +83,7 @@ export default function Home() {
               <input 
                 type="checkbox" 
                 checked 
-                onChange={() => toggleTaskCompletion(task.id)} 
+                onChange={() => toggleTaskCompletion(task.id, false)} 
               />
             </div>
           ))}
